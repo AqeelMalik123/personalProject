@@ -5,18 +5,21 @@ export default function CustomPagination() {
     const [userData,setUserData]=useState([]);
     console.log(userData)
     const [currentpage,setCurrentPage]=useState(1)
+    console.log(currentpage,"currentpage")
     const [totalpage,setTotalPage]=useState(0)
     const apiUrl='https://jsonplaceholder.typicode.com/posts'
     useEffect(()=>{
           fetch(apiUrl).then((res)=>res.json()).then((data)=>{
             setUserData(data)
-            setTotalPage(Math.ceil(data.length/10))
+            const totalpage=Math.ceil(data?.length/10)
+            setTotalPage(totalpage)
           }).catch((error)=>{
             console.log(error)
           })
     },[])
     //current page 
     const handleChangePage=(newPage)=>{
+     
       setCurrentPage(newPage)
     }
     const handleNextPage=()=>{
@@ -26,17 +29,21 @@ export default function CustomPagination() {
       }
     }
     const handlePreviousPage=()=>{
-      if(currentpage  > totalpage){
+     console.log(currentpage,"currentpage",totalpage,"totalpage")
+      if(currentpage  < totalpage){
         setCurrentPage(currentpage -1)
-
+        
       }
     }
     const preDisabled=currentpage==1;
     const nextDisabled=currentpage==totalpage;
     const itemperPage=10
-    const startIndex=(currentpage-1)/itemperPage
-    const endIndex=startIndex+currentpage
+    const startIndex = (currentpage - 1) * itemperPage;
+    console.log(startIndex,"startIndex")
+    const endIndex=startIndex+itemperPage
+    
     const itemsToDisplay=userData.slice(startIndex,endIndex)
+console.log(itemsToDisplay,"itemsToDisplay")
 
     
   return (
@@ -62,10 +69,11 @@ export default function CustomPagination() {
 
       
 {
-     itemsToDisplay && itemsToDisplay.length >0 ? itemsToDisplay?.map((item,i)=>{
-console.log(item)
+   itemsToDisplay && itemsToDisplay.length >0 ? itemsToDisplay?.map((item,i)=>{
+
     return(<>
-    <TableRow key={i}>
+    <TableRow key={item?.id}>
+    {i}
       <TableCell >
         {item?.userId}
       </TableCell >
@@ -82,24 +90,30 @@ console.log(item)
     
     
     </>)
-  }) :"NUll"
+  }) :"Kuch NHI Hai"
 }
 {
   Array.from({length:totalpage},(_,i)=>{
     return(
-      <>
-      <button onClick={handleChangePage} key={i}>
+       <>
+       
+      <button onClick={()=>{handleChangePage(i+1)}} key={i}
+      disabled={currentpage==i+1}
+      >
         {i+1}
-      </button>
+      </button> 
       </>
     )
   })
 }
 
-       
+  
     </TableBody>
    </Table>
    </TableContainer>
+   <button disabled={
+    currentpage==1
+   }  onClick={handlePreviousPage}>Previous</button>  
     </>
   )
 }
