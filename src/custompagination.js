@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 export default function CustomPagination() {
     const [userData,setUserData]=useState([]);
-    console.log(userData)
+   
     const [currentpage,setCurrentPage]=useState(1)
     console.log(currentpage,"currentpage")
     const [totalpage,setTotalPage]=useState(0)
@@ -49,7 +49,7 @@ console.log(itemsToDisplay,"itemsToDisplay")
   return (
     <>
     <TableContainer component={Paper}>
-   <Table sx={{ minWidth: 650 }} aria-label="simple table"> 
+   <Table sx={{ width:"100%" }} aria-label="simple table"> 
     <TableHead>
         <TableRow>
             <TableCell >id</TableCell >
@@ -73,17 +73,17 @@ console.log(itemsToDisplay,"itemsToDisplay")
 
     return(<>
     <TableRow key={item?.id}>
-    {i}
+   
       <TableCell >
         {item?.userId}
       </TableCell >
       <TableCell >
         {item?.id}
       </TableCell >
-      <TableCell >
+      <TableCell  >
         {item?.title}
       </TableCell >
-      <TableCell >
+      <TableCell  >
         {item?.body}
       </TableCell >
     </TableRow>
